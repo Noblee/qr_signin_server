@@ -1,0 +1,15 @@
+spring:
+#  profiles: qrsignin
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://qr.nobler.xyz:3306/qrsignin2?useSSL=false&useUnicode=true&characterEncoding=utf8
+    password: 1o558o6142
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  application:
+    name: qrsigninapp
+server:
+  port: 8082
