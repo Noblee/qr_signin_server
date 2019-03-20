@@ -4,6 +4,7 @@ package xyz.nobler.spring.qr.qr_signin_server.entity;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.io.Serializable;
+
 @Entity
 public class Teacher implements Serializable {
     @Id
@@ -14,6 +15,13 @@ public class Teacher implements Serializable {
     private String address;
 
     public Teacher() {
+    }
+
+    public Teacher(Teacher teacher) {
+        this.username = teacher.username;
+        this.name = teacher.name;
+        this.phonenum = teacher.phonenum;
+        this.address = teacher.address;
     }
 
     public String getUsername() {

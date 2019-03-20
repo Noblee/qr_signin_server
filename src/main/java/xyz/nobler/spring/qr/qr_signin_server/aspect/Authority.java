@@ -2,6 +2,7 @@ package xyz.nobler.spring.qr.qr_signin_server.aspect;
 
 
 import org.springframework.stereotype.Component;
+import xyz.nobler.spring.qr.qr_signin_server.exception.ExceptionData;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -22,19 +23,19 @@ public class Authority implements Filter {
         HttpSession session = request.getSession();
         String path = request.getServletPath();
         System.out.println(path);
-        if(session.getAttribute("teacher")!=null){
-            chain.doFilter(req,resp );
-        }
-        else if(!(path.startsWith("/admin/"))){
-            chain.doFilter(req,resp);
-        }
-        else {
-            response.sendRedirect("/");
+        if (session.getAttribute("teacher") != null) {
+            chain.doFilter(req, resp);
+        } else if (!(path.startsWith("/admin/"))) {
+            chain.doFilter(req, resp);
+        } else {
+            throw new ExceptionData("您没有权限访问此页面，请登录。");
         }
     }
+
     @Override
     public void destroy() {
     }
+
     @Override
     public void init(FilterConfig config) throws ServletException {
 

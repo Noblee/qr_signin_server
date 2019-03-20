@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xyz.nobler.spring.qr.qr_signin_server.Repository.TeacherRepository;
 import xyz.nobler.spring.qr.qr_signin_server.entity.Teacher;
+import xyz.nobler.spring.qr.qr_signin_server.exception.ExceptionData;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,35 +23,40 @@ public class LogController {
     @PostMapping( "/login" )
     public Teacher login(HttpSession session, Teacher teacher) {
 
-        session.setAttribute("teacher", teacher);
         Teacher userdata;
         try {
             userdata = teacherRepository.findById(teacher.getUsername()).get();
-        } catch (IllegalArgumentException e) {
-            return null;
+        } catch (Exception e) {
+            throw new ExceptionData("此账号不存在，请注册。");
+
         }
         if (!teacher.getPassword().equals(userdata.getPassword())) {
-            return null;
+            throw new ExceptionData("密码不正确。");
         }
         session.setAttribute("teacher", userdata);
-        userdata.setPassword(null);
-        return userdata;
+
+        return new Teacher(userdata);
     }
+
     @PostMapping( "/signup" )
     public Teacher signup(Teacher teacher) {
+        if (teacher.getPassword().length() <= 9) {
+            throw new ExceptionData("密码需要10位以上");
+        }
         try {
             teacherRepository.findById(teacher.getUsername()).get();
         } catch (Exception e) {
             teacherRepository.save(teacher);
+            teacher.setPassword("");
             return teacher;
         }
-        return null;
+        throw new ExceptionData("账号已经注册了，或更换用户名。");
     }
 
     @GetMapping( "/quit" )
     public boolean quit(HttpSession session) {
         session.invalidate();
         return true;
-
     }
+
 }

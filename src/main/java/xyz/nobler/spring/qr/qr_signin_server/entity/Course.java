@@ -1,9 +1,13 @@
 package xyz.nobler.spring.qr.qr_signin_server.entity;
 
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -11,11 +15,14 @@ public class Course implements Serializable {
     @Id
     @GeneratedValue
     private Integer courseid;
+    @NotNull
     private String username;
+    @NotNull
     private String name;
+    @NotNull
     private String academicyear;
+    @NotNull
     private Integer semester;
-    private Integer studentnum;
 
     public Course() {
     }
@@ -60,11 +67,5 @@ public class Course implements Serializable {
         this.semester = semester;
     }
 
-    public Integer getStudentnum() {
-        return studentnum;
-    }
 
-    public void setStudentnum(Integer studentnum) {
-        this.studentnum = studentnum;
-    }
 }

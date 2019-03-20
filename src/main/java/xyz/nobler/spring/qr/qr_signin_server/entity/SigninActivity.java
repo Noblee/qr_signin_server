@@ -1,16 +1,39 @@
 package xyz.nobler.spring.qr.qr_signin_server.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+
 @Entity
-public class SigninActivity implements Serializable{
+public class SigninActivity implements Serializable {
     @Id
+    @GeneratedValue
     private Integer signinid;
     private Integer courseid;
-    private String datetime;
+    @Temporal( value = TemporalType.TIMESTAMP )
+    private Date starttime;
+    private String keycode;
+    private Integer duration;
+
 
     public SigninActivity() {
+    }
+
+    public SigninActivity(Integer courseid, Date starttime, String keycode, Integer duration) {
+        this.courseid = courseid;
+        this.starttime = starttime;
+        this.keycode = keycode;
+        this.duration = duration;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     public Integer getSigninid() {
@@ -29,11 +52,19 @@ public class SigninActivity implements Serializable{
         this.courseid = courseid;
     }
 
-    public String getDatetime() {
-        return datetime;
+    public Date getStarttime() {
+        return starttime;
     }
 
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
+    public void setStarttime(Date starttime) {
+        this.starttime = starttime;
+    }
+
+    public String getKeycode() {
+        return keycode;
+    }
+
+    public void setKeycode(String keycode) {
+        this.keycode = keycode;
     }
 }
